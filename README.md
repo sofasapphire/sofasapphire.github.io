@@ -120,19 +120,18 @@ draft: false # true — скрыть с сайта
 
 ## Деплой (бесплатно, со своим доменом)
 
-Сайт статический — `npm run build` даёт папку `dist/`, которую можно разместить на любом хостинге.
+Сайт статический — `npm run build` даёт папку `dist/`.
 
-**Рекомендуется: Cloudflare Pages** (бесплатно: приватный репозиторий, безлимитный трафик, HTTPS, свой домен).
+**GitHub Pages** (основной вариант; Cloudflare в Беларуси частично блокируется — `*.trycloudflare.com` закрыт):
 
-1. Залить проект в репозиторий GitHub (можно приватный).
-2. Cloudflare → Workers & Pages → Create → Pages → Connect to Git → выбрать репозиторий.
-3. Build command: `npm run build`, output directory: `dist`, переменная `NODE_VERSION=20`.
-4. После первого деплоя: Custom domains → добавить свой домен. HTTPS выдаётся автоматически.
-5. Поменять `SITE_URL` в `astro.config.mjs` на свой домен.
-6. Админка: в `public/admin/config.yml` указать `repo`, развернуть [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) (Cloudflare Worker, бесплатно) и вписать его адрес в `base_url`.
+1. Репозиторий на GitHub; для своего адреса `<ник>.github.io` — репозиторий с именем `<ник>.github.io`.
+   На бесплатном тарифе репозиторий должен быть публичным.
+2. Settings → Pages → Source: **GitHub Actions**. Сборку и публикацию делает `.github/workflows/deploy.yml`
+   при каждом push в `main` (в том числе после сохранения в админке).
+3. `SITE_URL` в `astro.config.mjs` — адрес сайта.
+4. Свой домен: Settings → Pages → Custom domain + DNS-записи у регистратора, затем поменять `SITE_URL`.
+5. Админка: в `public/admin/config.yml` указать `repo`. Вход — «Войти с помощью токена доступа»
+   (fine-grained token с правом Contents: read/write на этот репозиторий) или через OAuth-воркер.
 
-Каждый `git push` в основную ветку — автоматический деплой; для других веток — превью-ссылка.
-
-**Альтернатива: GitHub Pages** — тоже бесплатно и со своим доменом, но на бесплатном тарифе репозиторий должен быть публичным.
-
-Платить нужно только за сам домен (≈10–15 $ в год за `.com`).
+Перед запуском проверить с белорусского интернета без VPN, что сайт открывается.
+Платно — только собственный домен (≈10–15 $ в год за `.com`).
