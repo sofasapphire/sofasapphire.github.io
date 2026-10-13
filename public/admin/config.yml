@@ -6,10 +6,11 @@
 
 backend:
   name: github
-  # TODO: заменить на свой репозиторий после публикации (владелец/название)
-  repo: OWNER/sofa-sapphire-site
+  repo: sofasapphire/sofasapphire.github.io
   branch: main
-  # TODO: адрес авторизации (Cloudflare Worker sveltia-cms-auth), чтобы входить кнопкой «Войти через GitHub»
+  # Вход в опубликованную админку — «Войти с помощью токена доступа» (fine-grained token GitHub,
+  # доступ Contents: read/write к этому репозиторию). Кнопке «Войти через GitHub» нужен OAuth-воркер
+  # (sveltia-cms-auth на Cloudflare Workers) — в Беларуси Cloudflare частично блокируется, поэтому не настроен.
   # base_url: https://sveltia-cms-auth.<аккаунт>.workers.dev
 
 # Общая папка для фото, не привязанных к съёмке

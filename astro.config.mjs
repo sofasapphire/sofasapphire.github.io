@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 
 // Адрес сайта. Поменять на свой домен, когда он будет куплен —
 // от него строятся canonical-ссылки, sitemap и og:url.
-const SITE_URL = 'https://sofa-sapphire.pages.dev';
+const SITE_URL = 'https://sofasapphire.github.io';
 
 /**
  * Админка лежит в public/admin/index.html. Хостинг сам отдаёт её по /admin/,
