@@ -1,0 +1,82 @@
+# Раздел «Страница „Обо мне“»: по записи на блок. Файлы — src/data/pages/about/*.json,
+# фото — src/assets/about/. Новый блок = новый JSON + новая запись здесь.
+collections:
+  - name: about
+    label: Страница «Обо мне»
+    description: Тексты и фото страницы «Обо мне», по блокам сверху вниз.
+    media_folder: /src/assets/about
+    public_folder: /src/assets/about
+    files:
+      - name: intro
+        label: 1. Знакомство (фото-арка и приветствие)
+        file: src/data/pages/about/intro.json
+        fields:
+          - name: photo
+            label: Фото
+            widget: image
+            hint: Вертикальное — показывается аркой в пропорции 3:4
+          - { name: photoAlt, label: Что на фото }
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - {
+              name: signature,
+              label: Подпись прописью,
+              required: false,
+              hint: Пусто — не показывается,
+            }
+          - { name: text, label: Текст, widget: text }
+
+      - name: facts
+        label: 2. Факты (тёмная полоса)
+        file: src/data/pages/about/facts.json
+        fields:
+          - name: items
+            label: Факты
+            label_singular: Факт
+            widget: list
+            summary: '{{value}} — {{label}}'
+            fields:
+              - { name: value, label: Крупно, hint: 'Число или слово, например «5+» или «Брест»' }
+              - { name: label, label: Подпись }
+
+      - name: story
+        label: 3. Моя история
+        file: src/data/pages/about/story.json
+        fields:
+          - name: photo
+            label: Фото
+            widget: image
+            hint: Рядом с текстом, пропорция 4:5 (на телефоне 4:3)
+          - { name: photoAlt, label: Что на фото }
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - name: text
+            label: Текст
+            widget: text
+            hint: Новый абзац — пустая строка (Enter два раза)
+
+      - name: approach
+        label: 4. Как я снимаю
+        file: src/data/pages/about/approach.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - name: items
+            label: Принципы
+            label_singular: Принцип
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Название }
+              - { name: text, label: Текст, widget: text }
+
+      - name: quote
+        label: 5. Цитата на фото
+        file: src/data/pages/about/quote.json
+        fields:
+          - name: photo
+            label: Фоновое фото
+            widget: image
+            hint: Горизонтальное, атмосферное — на нём будет затемнение и текст
+          - { name: text, label: Цитата, widget: text, hint: Без кавычек — они добавятся сами }
+          - { name: signature, label: Подпись прописью }

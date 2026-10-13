@@ -1,0 +1,74 @@
+---
+/**
+ * Кнопка-ссылка. Внешние ссылки (http…) открываются в новой вкладке.
+ * light / outline-light — для тёмных и цветных фонов.
+ */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'light' | 'outline-light';
+}
+
+const { href, variant = 'primary' } = Astro.props;
+const external = href.startsWith('http');
+---
+
+<a
+  class:list={['btn', `btn--${variant}`]}
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-block;
+    padding: 0.9em 1.8em;
+    border: 1px solid var(--color-accent);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s;
+  }
+  .btn--primary {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn--primary:hover {
+    background: var(--color-dark);
+    border-color: var(--color-dark);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-accent);
+  }
+  .btn--ghost:hover {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn--light {
+    background: var(--color-on-dark);
+    border-color: var(--color-on-dark);
+    color: var(--color-dark);
+  }
+  .btn--light:hover {
+    background: transparent;
+    color: var(--color-on-dark);
+  }
+  .btn--outline-light {
+    background: transparent;
+    border-color: rgb(255 255 255 / 60%);
+    color: var(--color-on-dark);
+  }
+  .btn--outline-light:hover {
+    background: var(--color-on-dark);
+    border-color: var(--color-on-dark);
+    color: var(--color-dark);
+  }
+</style>

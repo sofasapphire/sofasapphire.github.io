@@ -1,0 +1,52 @@
+# Раздел «Слайдер на главной»: один слайд = папка src/content/slides/<адрес>/ (index.md + фото).
+# Поля держать в синхроне со схемой src/content/schemas/slides.ts.
+collections:
+  - name: slides
+    label: Слайдер на главной
+    label_singular: Слайд
+    description: >-
+      Фото первого экрана главной — плавно сменяют друг друга. Лучше всего — горизонтальные кадры:
+      вертикальные на компьютере обрезаются сверху и снизу.
+    folder: src/content/slides
+    path: '{{slug}}/index'
+    media_folder: ''
+    public_folder: ''
+    create: true
+    slug:
+      editable: [create]
+      hint: 'Короткое имя латиницей через дефис, например leto-svadba'
+    summary: '{{order}} · {{alt}}'
+    sortable_fields: [order]
+    fields:
+      - name: image
+        label: Фото
+        widget: image
+      - name: alt
+        label: Что на фото
+        hint: Пара слов для поисковиков и незрячих, например «Невеста смеётся на первом танце»
+        required: false
+      - name: position
+        label: Какую часть кадра показывать
+        hint: Фото подрезается под экран. Выберите, что важно не обрезать — обычно лица.
+        widget: select
+        default: 50% 40%
+        options:
+          - { label: По центру, value: 50% 50% }
+          - { label: Чуть выше центра (обычно лица), value: 50% 40% }
+          - { label: Верхняя часть, value: 50% 25% }
+          - { label: Самый верх, value: 50% 10% }
+          - { label: Нижняя часть, value: 50% 75% }
+          - { label: Левее, value: 30% 40% }
+          - { label: Чуть правее, value: 60% 35% }
+          - { label: Правее, value: 70% 40% }
+      - name: order
+        label: Порядок
+        widget: number
+        value_type: int
+        default: 100
+        hint: Меньше — раньше. Удобно шагом 10 (10, 20, 30…), чтобы вставлять между.
+      - name: draft
+        label: Скрыть
+        widget: boolean
+        default: false
+        required: false

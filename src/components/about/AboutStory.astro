@@ -1,0 +1,47 @@
+---
+/** «Как всё началось»: текст + фото за работой. Данные — data/pages/about/story.json */
+import { Image } from 'astro:assets';
+
+import Paragraphs from '@/components/ui/Paragraphs.astro';
+import { photos, story } from '@/data/pages/about';
+---
+
+<section class="section container story">
+  <div class="story__text" data-reveal>
+    <p class="eyebrow">{story.eyebrow}</p>
+    <h2>{story.title}</h2>
+    <Paragraphs text={story.text} />
+  </div>
+  <div class="story__photo" data-reveal>
+    <Image
+      src={photos.story.image}
+      alt={photos.story.alt}
+      widths={[500, 900, 1300]}
+      sizes="(max-width: 860px) 100vw, 640px"
+    />
+  </div>
+</section>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+  }
+  .story__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 45% 40%;
+  }
+
+  @media (max-width: 860px) {
+    .story {
+      grid-template-columns: 1fr;
+    }
+    .story__photo :global(img) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

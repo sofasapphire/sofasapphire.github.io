@@ -1,0 +1,52 @@
+# Раздел «Настройки сайта»: виды съёмки и отзывы.
+collections:
+  - name: settings
+    label: Настройки сайта
+    files:
+      - name: categories
+        label: Виды съёмки
+        description: Порядок здесь = порядок на сайте. Первый вид — крупная плитка на главной.
+        file: src/data/categories.json
+        fields:
+          - name: items
+            label: Виды съёмки
+            label_singular: Вид съёмки
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - name: title
+                label: Название
+                hint: Например «Коммерция» или «Выпускные»
+              - name: slug
+                label: Адрес страницы
+                hint: >-
+                  Латиницей через дефис, например vypusknye. После добавления съёмок
+                  этого вида адрес лучше не менять — съёмки к нему привязаны.
+                pattern: ['^[a-z0-9-]+$', 'Только латиница в нижнем регистре, цифры и дефис']
+              - name: short
+                label: Короткое описание
+                hint: Одна строка под названием вида
+
+      - name: reviews
+        label: Отзывы
+        file: src/data/reviews.json
+        fields:
+          - name: items
+            label: Отзывы
+            label_singular: Отзыв
+            widget: list
+            summary: '{{author}}: {{text | truncate(40)}}'
+            fields:
+              - { name: text, label: Текст отзыва, widget: text }
+              - { name: author, label: Имя, hint: Например «Анна» или «Анна и Максим» }
+              - name: category
+                label: Вид съёмки
+                # Выбор из раздела «Виды съёмки»
+                widget: relation
+                collection: settings
+                file: categories
+                value_field: '{{items.*.slug}}'
+                display_fields: ['{{items.*.title}}']
+                search_fields: ['{{items.*.title}}']
+                dropdown_threshold: 20
+                required: false

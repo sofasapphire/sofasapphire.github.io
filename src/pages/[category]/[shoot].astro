@@ -1,0 +1,67 @@
+---
+/** Страница одной съёмки: заголовок, текст из index.md, галерея. */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+
+import Gallery from '@/components/portfolio/Gallery.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import { getCategory } from '@/data/categories';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getShoots, type Shoot } from '@/lib/shoots';
+
+export const getStaticPaths = (async () => {
+  const shoots = await getShoots();
+  return shoots.map((shoot) => ({
+    params: { category: shoot.data.category, shoot: shoot.id },
+    props: { shoot },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  shoot: Shoot;
+}
+
+const { shoot } = Astro.props;
+const category = getCategory(shoot.data.category)!;
+const { photos } = shoot.data;
+const { Content } = await render(shoot);
+---
+
+<BaseLayout title={`${shoot.data.title} · ${category.title}`}>
+  <article>
+    <PageHeader
+      title={shoot.data.title}
+      subtitle={shoot.data.subtitle}
+      back={{ href: `/${category.slug}/`, label: category.title }}
+    >
+      <div class="story lead" data-reveal>
+        <Content />
+      </div>
+    </PageHeader>
+    <div class="container gallery-wrap">
+      <Gallery {photos} alt={shoot.data.title} />
+    </div>
+  </article>
+
+  <ContactCta title="Хотите такую же съёмку?" />
+</BaseLayout>
+
+<style>
+  /* Галерея шире основного контента — фото занимают почти весь экран */
+  .gallery-wrap {
+    max-width: 1400px;
+    padding-block: clamp(24px, 4vw, 48px) var(--section-y);
+  }
+  @media (max-width: 700px) {
+    .gallery-wrap {
+      padding-inline: 6px;
+    }
+  }
+  .story {
+    margin: 24px auto 0;
+  }
+  .story :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

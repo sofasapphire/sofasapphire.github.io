@@ -1,0 +1,125 @@
+---
+/**
+ * Первый экран: фото на весь экран с плавной сменой (как на nadia-vaisse.com)
+ * и крупное имя внизу. Слайды — коллекция src/content/slides (админка → «Слайдер на главной»).
+ */
+import { Image } from 'astro:assets';
+
+import { getHeroSlides } from '@/lib/slides';
+import { site } from '@/data/site';
+
+interface Props {
+  /** Сколько мс показывается кадр (без учёта растворения). */
+  interval?: number;
+}
+
+const { interval = 3000 } = Astro.props;
+const FADE_MS = 1500;
+const slides = await getHeroSlides();
+---
+
+<section class="hero" data-hero data-interval={interval + FADE_MS}>
+  <div class="hero__slides" aria-hidden="true">
+    {
+      slides.map(({ data: slide }, i) => (
+        <Image
+          class:list={['hero__slide', { 'is-active': i === 0 }]}
+          src={slide.image}
+          alt=""
+          widths={[800, 1400, 2000, 2400]}
+          sizes="100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+          style={`object-position: ${slide.position}; --fade: ${FADE_MS}ms`}
+        />
+      ))
+    }
+  </div>
+
+  <div class="hero__text">
+    <h1>{site.name}</h1>
+    <p class="hero__sub">{site.role} · {site.city} · репортаж, свадьбы, семьи</p>
+  </div>
+</section>
+
+<script>
+  import '@/scripts/hero-slider.ts';
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: min(100vh, 900px);
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 30%),
+      transparent 30%,
+      transparent 55%,
+      rgb(0 0 0 / 35%)
+    );
+  }
+
+  .hero__slides {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--color-dark);
+  }
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    opacity: 0;
+    /* Медленное «отъезжание» кадра (эффект Кена Бёрнса) + растворение */
+    transform: scale(1.08);
+    transition:
+      opacity var(--fade) ease-in-out,
+      transform 7s ease-out;
+  }
+  .hero__slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .hero__text {
+    position: relative;
+    z-index: 2;
+    animation: hero-in 1.6s var(--ease-soft) 0.3s both;
+    padding: 0 16px clamp(48px, 12vh, 110px);
+    color: #fff;
+  }
+  .hero__text h1 {
+    margin: 0;
+    letter-spacing: 0.12em;
+    opacity: 0.8;
+  }
+  .hero__sub {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+</style>

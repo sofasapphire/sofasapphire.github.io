@@ -1,0 +1,115 @@
+---
+/**
+ * Портфолио: все съёмки на одной странице, новые сверху, с фильтром по виду съёмки.
+ * Фильтр работает без перезагрузки; выбранный вид запоминается в адресе (?vid=svadby),
+ * поэтому ссылкой на отфильтрованный список можно поделиться.
+ */
+import ShootGrid from '@/components/portfolio/ShootGrid.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import { categories } from '@/data/categories';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getShoots } from '@/lib/shoots';
+
+const shoots = await getShoots();
+// В фильтре — только виды, в которых уже есть съёмки
+const filters = categories
+  .map((c) => ({ ...c, count: shoots.filter((s) => s.data.category === c.slug).length }))
+  .filter((c) => c.count > 0);
+---
+
+<BaseLayout
+  title="Портфолио"
+  description="Портфолио фотографа Софы, Брест: репортажи, свадьбы, love story, семейные съёмки, портреты, коммерция."
+>
+  <PageHeader
+    eyebrow="все съёмки"
+    title="Портфолио"
+    subtitle="Истории, которые я успела сохранить"
+  />
+
+  <section class="section container">
+    {
+      shoots.length === 0 ? (
+        <p class="center muted">Съёмки скоро появятся здесь.</p>
+      ) : (
+        <>
+          {filters.length > 1 && (
+            <nav class="filters" aria-label="Фильтр по виду съёмки" data-filters data-reveal>
+              <button type="button" class="chip is-active" data-filter="" aria-pressed="true">
+                Все <span>{shoots.length}</span>
+              </button>
+              {filters.map((c) => (
+                <button type="button" class="chip" data-filter={c.slug} aria-pressed="false">
+                  {c.title} <span>{c.count}</span>
+                </button>
+              ))}
+            </nav>
+          )}
+          <ShootGrid {shoots} columns={3} showCategory />
+        </>
+      )
+    }
+  </section>
+
+  <ContactCta />
+</BaseLayout>
+
+<script>
+  import '@/scripts/portfolio-filter.ts';
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .chip {
+    padding: 0.7em 1.3em;
+    border: 1px solid var(--color-accent-soft);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink);
+    font: 500 0.72rem / 1 var(--font-body);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s;
+  }
+  .chip span {
+    margin-left: 0.3em;
+    color: var(--color-muted);
+  }
+  .chip:hover {
+    border-color: var(--color-accent);
+  }
+  .chip.is-active {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .chip.is-active span {
+    color: rgb(255 255 255 / 75%);
+  }
+
+  /* На телефоне — одна строка с горизонтальной прокруткой */
+  @media (max-width: 520px) {
+    .filters {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .chip {
+      flex: none;
+    }
+  }
+</style>

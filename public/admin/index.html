@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Админка — Sofa Sapphire</title>
+    <!--
+      Настройки админки по файлам. Порядок <link> = порядок разделов в меню.
+      config.yml — подключение (GitHub, фото); collections/*.yml — разделы.
+    -->
+    <link href="/admin/config.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/shoots.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/slides.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/pages-home.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/pages-about.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/pages-prices.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/blocks.yml" type="application/yaml" rel="cms-config-url" />
+    <link href="/admin/collections/settings.yml" type="application/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <!-- Sveltia CMS: https://sveltiacms.app -->
+    <script src="https://unpkg.com/@sveltia/cms@0.221.0/dist/sveltia-cms.js"></script>
+  </body>
+</html>

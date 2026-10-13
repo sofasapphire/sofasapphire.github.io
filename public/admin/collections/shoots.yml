@@ -1,0 +1,67 @@
+# Раздел «Съёмки»: одна запись = одна страница съёмки с галереей.
+# Поля держать в синхроне со схемой src/content.config.ts.
+collections:
+  # ───────────── Съёмки ─────────────
+  - name: shoots
+    label: Съёмки
+    label_singular: Съёмку
+    description: Каждая съёмка — отдельная страница с галереей.
+    folder: src/content/shoots
+    path: '{{slug}}/index'
+    # Фото лежат в папке самой съёмки
+    media_folder: ''
+    public_folder: ''
+    create: true
+    slug:
+      editable: [create]
+      hint: 'Адрес страницы латиницей через дефис, например anya-i-max'
+    summary: '{{title}} · {{category}} · {{date | date("DD.MM.YYYY")}}'
+    sortable_fields: [date, title]
+    view_groups:
+      - label: Вид съёмки
+        field: category
+    fields:
+      - name: title
+        label: Название
+        hint: Например «Аня и Макс» или «Выпускной 11 «А»»
+      - name: category
+        label: Вид съёмки
+        # Варианты берутся из раздела «Виды съёмки»
+        widget: relation
+        collection: settings
+        file: categories
+        value_field: '{{items.*.slug}}'
+        display_fields: ['{{items.*.title}}']
+        search_fields: ['{{items.*.title}}']
+        dropdown_threshold: 20
+      - name: date
+        label: Дата съёмки
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+      - name: subtitle
+        label: Подпись под названием
+        required: false
+      - name: cover
+        label: Обложка
+        widget: image
+        hint: Главное фото — показывается в списке съёмок и на главной
+      - name: coverAlt
+        label: Описание обложки
+        hint: Пара слов, что на фото (для поисковиков и незрячих)
+        required: false
+      - name: photos
+        label: Фото галереи
+        widget: image
+        multiple: true
+        hint: Можно выбрать сразу много фото. Порядок меняется перетаскиванием.
+      - name: draft
+        label: Скрыть с сайта
+        widget: boolean
+        default: false
+        required: false
+      - name: body
+        label: История съёмки
+        widget: markdown
+        hint: Пара строк — где снимали, какое было настроение
+        required: false

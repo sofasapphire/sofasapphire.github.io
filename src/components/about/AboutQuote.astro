@@ -1,0 +1,68 @@
+---
+/** Цитата на атмосферном фото во всю ширину. Данные — data/pages/about/quote.json */
+import { Image } from 'astro:assets';
+
+import { photos, quote } from '@/data/pages/about';
+---
+
+<section class="quote">
+  <Image
+    class="quote__bg"
+    src={photos.quote.image}
+    alt=""
+    widths={[800, 1400, 2000]}
+    sizes="100vw"
+  />
+  <figure class="container quote__inner" data-reveal>
+    <blockquote>«{quote.text}»</blockquote>
+    <figcaption class="signature">{quote.signature}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .quote {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(380px, 60vh, 620px);
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+  }
+  .quote :global(.quote__bg) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 40%;
+  }
+  /* Затемнение в цвет палитры — чтобы цитата читалась на любом фото */
+  .quote::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-dark) 55%, transparent);
+  }
+  .quote__inner {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    padding-block: var(--section-y);
+  }
+  blockquote {
+    max-width: 880px;
+    margin: 0 auto;
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+  .signature {
+    margin: 0.6em 0 0;
+    font-size: 2.4rem;
+    color: #fff;
+  }
+</style>

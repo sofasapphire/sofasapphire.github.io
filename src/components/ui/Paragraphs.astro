@@ -1,0 +1,15 @@
+---
+/** Текст из админки с абзацами: пустая строка между абзацами → отдельные <p>. */
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className } = Astro.props;
+const paragraphs = text
+  .split(/\n\s*\n/)
+  .map((p) => p.trim())
+  .filter(Boolean);
+---
+
+{paragraphs.map((p) => <p class={className}>{p}</p>)}

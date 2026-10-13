@@ -1,0 +1,75 @@
+---
+import { contacts, site } from '@/data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div>
+      <p class="footer__brand">{site.brand}</p>
+      <p class="muted">{site.role} · {site.region}</p>
+    </div>
+    <ul class="footer__links">
+      <li>
+        <a href={contacts.telegram.url} target="_blank" rel="noopener"
+          >Telegram {contacts.telegram.handle}</a
+        >
+      </li>
+      <li>
+        <a href={contacts.instagram.url} target="_blank" rel="noopener"
+          >Instagram {contacts.instagram.handle}</a
+        >
+      </li>
+      <li><a href={contacts.phone.href}>{contacts.phone.label}</a></li>
+    </ul>
+  </div>
+  <p class="container footer__copy muted">© {year} {site.name}</p>
+</footer>
+
+<style>
+  /* Тёмный футер — на тон глубже основного тёмного цвета палитры */
+  .footer {
+    padding: 56px 0 32px;
+    background: color-mix(in srgb, var(--color-dark) 80%, black);
+    color: var(--color-on-dark);
+  }
+  .footer :global(.muted) {
+    color: rgb(255 255 255 / 60%);
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .footer__brand {
+    margin: 0;
+    font-family: var(--font-script);
+    font-size: 2.2rem;
+    letter-spacing: 0;
+    color: var(--color-accent-soft);
+  }
+  .footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .footer__links a {
+    text-decoration: none;
+  }
+  .footer__links a:hover {
+    color: var(--color-accent-soft);
+  }
+  .footer__copy {
+    margin: 0;
+    padding-top: 24px;
+    border-top: 1px solid rgb(255 255 255 / 12%);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>

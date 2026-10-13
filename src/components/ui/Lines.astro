@@ -1,0 +1,10 @@
+---
+/** Текст с переносами строк из админки: каждая строка через <br />. Без HTML — безопасно. */
+interface Props {
+  text: string;
+}
+
+const lines = Astro.props.text.split('\n');
+---
+
+{lines.map((line, i) => (i === 0 ? line : [<br />, line]))}

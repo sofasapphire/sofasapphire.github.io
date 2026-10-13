@@ -1,0 +1,107 @@
+---
+/**
+ * Отзывы на главной: всегда 3 окошка (на телефоне — 1), отзывы в них случайные
+ * и плавно сменяются. Выбор происходит в браузере — у каждого посетителя свой порядок.
+ *
+ * Как устроено: в каждом окошке лежат ВСЕ отзывы стопкой (в одной ячейке грида),
+ * видим только один. Поэтому высота окошка = самый длинный отзыв и при смене ничего не прыгает.
+ * Скрипт тасует колоду и раздаёт по 3 отзыва; повтор — только когда колода закончилась.
+ */
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { reviews } from '@/data/reviews';
+
+const SLOTS = 3;
+const slots = Math.min(SLOTS, reviews.length);
+---
+
+{
+  reviews.length > 0 && (
+    <section class="section bg-tint">
+      <div class="container">
+        <SectionHeading eyebrow="отзывы" title="Что говорят клиенты" />
+        <div class="slots" style={`--slots: ${slots}`} data-reviews data-interval="7000">
+          {Array.from({ length: slots }, (_, slot) => (
+            <div class="slot" data-reveal>
+              {reviews.map((r, i) => (
+                <blockquote
+                  class:list={{ 'is-active': i === slot }}
+                  aria-hidden={i !== slot ? 'true' : undefined}
+                >
+                  <p>«{r.text}»</p>
+                  <cite>{r.shoot ? `${r.author}, ${r.shoot}` : r.author}</cite>
+                </blockquote>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  import '@/scripts/reviews-rotator.ts';
+</script>
+
+<style>
+  .slots {
+    display: grid;
+    grid-template-columns: repeat(var(--slots), 1fr);
+    gap: 24px;
+  }
+  /* Все отзывы окошка лежат в одной ячейке — высота по самому длинному */
+  .slot {
+    display: grid;
+  }
+  blockquote {
+    grid-area: 1 / 1;
+    position: relative;
+    margin: 0;
+    padding: 56px 32px 32px;
+    border-top: 3px solid var(--color-accent);
+    background: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.9s var(--ease-soft),
+      visibility 0.9s;
+  }
+  blockquote.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* Декоративная кавычка */
+  blockquote::before {
+    content: '“';
+    position: absolute;
+    top: 4px;
+    left: 24px;
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--color-accent-soft);
+  }
+  p {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+  cite {
+    font-size: 0.75rem;
+    font-style: normal;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Планшет и телефон — одно окошко */
+  @media (max-width: 860px) {
+    .slots {
+      grid-template-columns: 1fr;
+    }
+    .slot:not(:first-child) {
+      display: none;
+    }
+  }
+</style>

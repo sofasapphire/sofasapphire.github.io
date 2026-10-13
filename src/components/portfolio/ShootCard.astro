@@ -1,0 +1,79 @@
+---
+/** Карточка съёмки. showCategory — подпись вида над названием (на общей странице портфолио). */
+import { Image } from 'astro:assets';
+
+import { getCategory } from '@/data/categories';
+import { shootUrl, type Shoot } from '@/lib/shoots';
+
+interface Props {
+  shoot: Shoot;
+  showCategory?: boolean;
+  /** Атрибут sizes для картинки — зависит от числа колонок в сетке. */
+  sizes?: string;
+}
+
+const { shoot, showCategory = false, sizes = '(max-width: 700px) 100vw, 50vw' } = Astro.props;
+const { title, subtitle, cover, coverAlt, category } = shoot.data;
+---
+
+<a class="shoot" href={shootUrl(shoot)}>
+  <div class="shoot__media">
+    <Image src={cover} alt={coverAlt} widths={[400, 700, 1000]} {sizes} />
+  </div>
+  {showCategory && <p class="eyebrow shoot__category">{getCategory(category)?.title}</p>}
+  <h3>{title}</h3>
+  {subtitle && <p class="muted shoot__subtitle">{subtitle}</p>}
+</a>
+
+<style>
+  .shoot {
+    display: block;
+    text-decoration: none;
+  }
+  .shoot__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  .shoot__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    transition: transform 0.6s;
+  }
+  .shoot:hover .shoot__media :global(img) {
+    transform: scale(1.03);
+  }
+  .shoot__category {
+    margin: 16px 0 0;
+  }
+  h3 {
+    margin: 16px 0 0.2em;
+    transition: color 0.25s;
+  }
+  .shoot__category + h3 {
+    margin-top: 4px;
+  }
+  .shoot:hover h3 {
+    color: var(--color-accent);
+  }
+  .shoot__subtitle {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 520px) {
+    h3 {
+      margin-top: 10px;
+      font-size: 1.15rem;
+    }
+    .shoot__category {
+      margin-top: 10px;
+      font-size: 0.6rem;
+    }
+    .shoot__subtitle {
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+  }
+</style>

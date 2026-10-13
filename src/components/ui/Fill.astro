@@ -1,0 +1,24 @@
+---
+/**
+ * Текст с пропусками «___»: пропуск подсвечивается маркером, чтобы его было видно и не забыть
+ * заполнить. Когда в админке впишут реальные данные — подсветка исчезает сама.
+ */
+interface Props {
+  text: string;
+}
+
+const PLACEHOLDER = /^_{3,}$/;
+const parts = Astro.props.text
+  .split(/(_{3,})/)
+  .map((part) => ({ part, todo: PLACEHOLDER.test(part) }));
+---
+
+{parts.map(({ part, todo }) => (todo ? <mark class="todo">{part}</mark> : part))}
+
+<style>
+  .todo {
+    padding: 0 0.15em;
+    background: #ffe58a;
+    color: #5a4500;
+  }
+</style>

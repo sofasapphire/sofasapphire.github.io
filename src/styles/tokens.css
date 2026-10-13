@@ -1,0 +1,59 @@
+/*
+ * Дизайн-токены: цвета, шрифты, отступы. Все компоненты берут значения только отсюда.
+ *
+ * Палитра по умолчанию — B «Ирис и лаванда» (оттенки Pantone из референса).
+ * Палитры A и C оставлены для сравнения: переключатель виден только в режиме разработки.
+ */
+
+:root {
+  /* Цвета — палитра B */
+  --color-bg: #faf8f6;
+  --color-bg-alt: #eee8e1; /* бежевый */
+  --color-tint: #e9e8f4; /* светлая лаванда — фон цветных секций */
+  --color-ink: #2a2940;
+  --color-muted: #74718a;
+  --color-accent: #5b5ea6; /* ирисово-синий 18-3943 */
+  --color-accent-soft: #a4a6d4; /* барвинок 17-3932 */
+  --color-dark: #3b3965; /* фиолетово-синий 19-3832 */
+  --color-on-dark: #f5f2f7;
+  --color-line: #e3dde4;
+
+  /* Шрифты (как на nadia-vaisse.com) */
+  --font-heading: 'Cormorant', Georgia, serif;
+  --font-body: 'Jost', system-ui, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+
+  /* Размеры */
+  --container: 1200px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --section-y: clamp(64px, 10vw, 120px);
+  --header-h: 140px;
+}
+
+/* A — Королевский сапфир */
+[data-palette='a'] {
+  --color-bg: #fbf9f6;
+  --color-bg-alt: #f1ebe2;
+  --color-tint: #e6e7f3;
+  --color-ink: #1f1e2b;
+  --color-muted: #6e6b78;
+  --color-accent: #3d428b;
+  --color-accent-soft: #8f93c9;
+  --color-dark: #2e2c47;
+  --color-on-dark: #f4f1ec;
+  --color-line: #e2dcd2;
+}
+
+/* C — Чёрно-белая + сапфир */
+[data-palette='c'] {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f3f1ed;
+  --color-tint: #eceef7;
+  --color-ink: #141416;
+  --color-muted: #6c6c72;
+  --color-accent: #3a4fa0;
+  --color-accent-soft: #b5bddf;
+  --color-dark: #141416;
+  --color-on-dark: #f5f5f3;
+  --color-line: #e6e4e0;
+}

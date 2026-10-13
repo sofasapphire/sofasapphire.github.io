@@ -1,0 +1,20 @@
+---
+import AboutTeaser from '@/components/home/AboutTeaser.astro';
+import CertificateTeaser from '@/components/home/CertificateTeaser.astro';
+import HeroSlider from '@/components/home/HeroSlider.astro';
+import Intro from '@/components/home/Intro.astro';
+import Portfolio from '@/components/home/Portfolio.astro';
+import Reviews from '@/components/home/Reviews.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout overlayHeader>
+  <HeroSlider />
+  <Intro />
+  <Portfolio />
+  <AboutTeaser />
+  <CertificateTeaser />
+  <Reviews />
+  <ContactCta />
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+/**
+ * Заголовок внутренней страницы на лавандовом фоне.
+ * Продолжает лавандовую шапку сайта — сверху получается одна цветная полоса.
+ */
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  subtitle?: string;
+  back?: { href: string; label: string };
+}
+
+const { title, eyebrow, subtitle, back } = Astro.props;
+---
+
+<header class="page-header bg-tint">
+  <div class="container">
+    {
+      back && (
+        <a class="back link" href={back.href}>
+          ← {back.label}
+        </a>
+      )
+    }
+    <SectionHeading {eyebrow} {title} {subtitle} as="h1" />
+    <slot />
+  </div>
+</header>
+
+<style>
+  .page-header {
+    padding: clamp(24px, 5vw, 56px) 0 clamp(40px, 6vw, 72px);
+    text-align: center;
+  }
+  .page-header :global(.heading) {
+    margin-bottom: 0;
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 0.8rem;
+  }
+</style>

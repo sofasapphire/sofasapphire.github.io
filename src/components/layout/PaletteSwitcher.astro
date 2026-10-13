@@ -1,0 +1,63 @@
+---
+/**
+ * Переключатель палитр A / B / C — инструмент для выбора цветов.
+ * Показывается только при `npm run dev`, в собранный сайт не попадает.
+ */
+const palettes = [
+  { id: 'a', title: 'Королевский сапфир' },
+  { id: 'b', title: 'Ирис и лаванда (по умолчанию)' },
+  { id: 'c', title: 'Чёрно-белая + сапфир' },
+];
+---
+
+{
+  import.meta.env.DEV && (
+    <div class="switch" role="group" aria-label="Палитра (только в разработке)">
+      <span>Палитра:</span>
+      {palettes.map((p) => (
+        <button type="button" data-palette-btn={p.id} title={p.title}>
+          {p.id.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+<script>
+  import '@/scripts/palette-switcher.ts';
+</script>
+
+<style>
+  .switch {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid var(--color-line);
+    background: var(--color-bg);
+    box-shadow: 0 6px 24px rgb(0 0 0 / 12%);
+    font-size: 0.8rem;
+  }
+  button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-line);
+    background: var(--color-bg-alt);
+    color: var(--color-ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  :global(html:not([data-palette])) [data-palette-btn='b'],
+  :global([data-palette='a']) [data-palette-btn='a'],
+  :global([data-palette='b']) [data-palette-btn='b'],
+  :global([data-palette='c']) [data-palette-btn='c'] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+</style>

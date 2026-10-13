@@ -1,0 +1,13 @@
+# Раздел «Общие блоки»: блоки, которые стоят на нескольких страницах. Файлы — src/data/blocks/*.json.
+collections:
+  - name: blocks
+    label: Общие блоки
+    files:
+      - name: contact-cta
+        label: «Давайте снимем ваш момент»
+        description: Цветной блок с кнопками связи — внизу главной и страниц портфолио.
+        file: src/data/blocks/contact-cta.json
+        fields:
+          - { name: signature, label: Подпись прописью, hint: Например «let's talk» }
+          - { name: title, label: Заголовок }
+          - { name: text, label: Текст, widget: text }

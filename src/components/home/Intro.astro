@@ -1,0 +1,61 @@
+---
+/** Вступление (лавандовый фон) и «философия» в трёх словах (тёмная полоса). Тексты — data/pages/home/intro.json */
+import Lines from '@/components/ui/Lines.astro';
+import { intro } from '@/data/pages/home';
+---
+
+<section class="section bg-tint intro">
+  <div class="container">
+    <h2 data-reveal><Lines text={intro.title} /></h2>
+    <p class="subtitle" data-reveal>{intro.subtitle}</p>
+    <p class="signature" data-reveal>{intro.signature}</p>
+    <p class="lead" data-reveal>{intro.text}</p>
+  </div>
+</section>
+
+<section class="bg-dark words-band" aria-label="Мой подход">
+  <ul class="container words">
+    {intro.words.map((w) => <li data-reveal>{w}</li>)}
+  </ul>
+</section>
+
+<style>
+  .intro {
+    text-align: center;
+  }
+  .lead {
+    margin-inline: auto;
+  }
+
+  .words-band {
+    padding-block: clamp(40px, 6vw, 72px);
+  }
+  .words {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-block: 0;
+    list-style: none;
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-style: italic;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  .words li::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto 0.4em;
+    background: var(--color-accent-soft);
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 520px) {
+    .words {
+      gap: 8px;
+      font-size: 1.5rem;
+    }
+  }
+</style>

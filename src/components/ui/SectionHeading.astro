@@ -1,0 +1,31 @@
+---
+/** Заголовок секции: мелкая надпись сверху + заголовок + подзаголовок-курсив. */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+  /** Уровень заголовка: h1 только для главного заголовка страницы. */
+  as?: 'h1' | 'h2';
+}
+
+const { eyebrow, title, subtitle, align = 'center', as: Tag = 'h2' } = Astro.props;
+---
+
+<header class:list={['heading', `heading--${align}`]} data-reveal>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag set:html={title} />
+  {subtitle && <p class="subtitle">{subtitle}</p>}
+</header>
+
+<style>
+  .heading {
+    margin-bottom: 48px;
+  }
+  .heading--center {
+    text-align: center;
+  }
+  .heading :global(h1) {
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+  }
+</style>

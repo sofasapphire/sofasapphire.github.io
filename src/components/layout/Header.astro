@@ -1,0 +1,151 @@
+---
+/**
+ * Шапка как на nadia-vaisse.com: логотип-пропись по центру, меню под ним.
+ * overlay — прозрачная белая шапка поверх большого фото (главная).
+ */
+import { getCategory } from '@/data/categories';
+import { nav, site } from '@/data/site';
+
+interface Props {
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
+
+// Активный пункт меню. Страницы видов и съёмок относятся к «Портфолио».
+const path = Astro.url.pathname;
+const inPortfolio = Boolean(getCategory(path.split('/')[1] ?? ''));
+const isActive = (href: string) => path.startsWith(href) || (href === '/portfolio/' && inPortfolio);
+---
+
+<header class:list={['header', { 'header--overlay': overlay }]} data-header>
+  <a href="/" class="logo" aria-label={`${site.brand} — на главную`}>{site.brand}</a>
+
+  <button
+    class="burger"
+    type="button"
+    aria-label="Меню"
+    aria-expanded="false"
+    aria-controls="site-nav"
+  >
+    <span></span><span></span>
+  </button>
+
+  <nav id="site-nav" class="nav" aria-label="Основное меню">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script>
+  import '@/scripts/header-menu.ts';
+</script>
+
+<style>
+  .header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 26px var(--gutter) 22px;
+    background: var(--color-tint);
+    color: var(--color-ink);
+  }
+  .header--overlay {
+    position: absolute;
+    inset: 0 0 auto;
+    background: transparent;
+    color: #fff;
+    animation: header-in 1.2s var(--ease-soft) both;
+  }
+  @keyframes header-in {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+  }
+
+  .logo {
+    font-family: var(--font-script);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .nav {
+    display: flex;
+    gap: 36px;
+  }
+  .nav a {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav a:hover {
+    opacity: 0.65;
+  }
+  .nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent-soft);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 4px;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .burger span {
+    width: 26px;
+    height: 1.5px;
+    background: currentColor;
+  }
+
+  @media (max-width: 860px) {
+    .header {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 16px;
+    }
+    .logo {
+      font-size: 2.2rem;
+    }
+    .burger {
+      display: flex;
+    }
+    .nav {
+      position: absolute;
+      inset: 100% 0 auto;
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--color-bg);
+      color: var(--color-ink);
+      border-bottom: 1px solid var(--color-line);
+    }
+    .is-open .nav {
+      display: flex;
+    }
+    .nav a {
+      padding: 16px;
+      border-top: 1px solid var(--color-line);
+    }
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+/** Блок подарочного сертификата. Тексты — data/pages/home/certificate.json */
+import Button from '@/components/ui/Button.astro';
+import { certificate } from '@/data/pages/home';
+---
+
+<section class="section certificate">
+  <div class="container certificate__inner">
+    <div class="certificate__shape" aria-hidden="true" data-reveal></div>
+    <div data-reveal>
+      <p class="eyebrow">{certificate.eyebrow}</p>
+      <h2>{certificate.title}</h2>
+      <p>{certificate.text}</p>
+      <Button href="/sertifikat/" variant="light">{certificate.button}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .certificate {
+    background: var(--color-dark);
+    color: var(--color-on-dark);
+  }
+  .certificate .eyebrow {
+    color: var(--color-accent-soft);
+  }
+  .certificate__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 560px);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+  }
+  /* Арка — силуэт будущего сертификата */
+  .certificate__shape {
+    width: clamp(140px, 20vw, 220px);
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--color-accent-soft);
+    border-radius: 999px 999px 4px 4px;
+    background: linear-gradient(160deg, var(--color-accent), var(--color-dark));
+    box-shadow:
+      14px 14px 0 -1px var(--color-dark),
+      14px 14px 0 0 var(--color-accent-soft);
+  }
+
+  @media (max-width: 860px) {
+    .certificate__inner {
+      grid-template-columns: 1fr;
+    }
+    .certificate__shape {
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+/** Призыв написать (градиент из цветов палитры): на главной и в конце страниц портфолио. */
+import Button from '@/components/ui/Button.astro';
+import { contactCta } from '@/data/blocks/contact-cta';
+import { contacts } from '@/data/site';
+
+interface Props {
+  title?: string;
+}
+
+const { title = contactCta.title } = Astro.props;
+---
+
+<section class="section bg-accent cta">
+  <div class="container">
+    <p class="signature" data-reveal>{contactCta.signature}</p>
+    <h2 data-reveal>{title}</h2>
+    <p class="lead" data-reveal>{contactCta.text}</p>
+    <div class="actions" data-reveal>
+      <Button href={contacts.telegram.url} variant="light">Telegram</Button>
+      <Button href={contacts.instagram.url} variant="outline-light">Instagram</Button>
+      <Button href={contacts.phone.href} variant="outline-light">Позвонить</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    text-align: center;
+  }
+  .signature {
+    margin-bottom: 0.3em;
+  }
+  .lead {
+    margin-inline: auto;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

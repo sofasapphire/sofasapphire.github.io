@@ -1,0 +1,28 @@
+# Админка сайта (Sveltia CMS). Открывается по адресу /admin/
+# Документация: https://sveltiacms.app/en/docs
+#
+# Здесь — только подключение (GitHub, фото). Разделы админки — по файлу в collections/,
+# подключаются в index.html (порядок <link> = порядок разделов в меню).
+
+backend:
+  name: github
+  # TODO: заменить на свой репозиторий после публикации (владелец/название)
+  repo: OWNER/sofa-sapphire-site
+  branch: main
+  # TODO: адрес авторизации (Cloudflare Worker sveltia-cms-auth), чтобы входить кнопкой «Войти через GitHub»
+  # base_url: https://sveltia-cms-auth.<аккаунт>.workers.dev
+
+# Общая папка для фото, не привязанных к съёмке
+media_folder: src/assets/uploads
+public_folder: /src/assets/uploads
+
+media_libraries:
+  default:
+    config:
+      # Фото сжимаются прямо при загрузке: webp, не больше 2400 px.
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2400
+          height: 2400

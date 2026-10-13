@@ -1,0 +1,53 @@
+---
+/** «Всегда входит»: что клиент получает в любой съёмке. Данные — data/pages/prices/included.json */
+import Fill from '@/components/ui/Fill.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { included } from '@/data/pages/prices';
+---
+
+<section class="section bg-tint">
+  <div class="container">
+    <SectionHeading eyebrow={included.eyebrow} title={included.title} />
+    <ul class="included">
+      {
+        included.items.map((item) => (
+          <li data-reveal>
+            <h3>{item.title}</h3>
+            <p>
+              <Fill text={item.text} />
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .included {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: clamp(24px, 4vw, 48px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+  }
+  h3 {
+    margin-bottom: 0.4em;
+    font-size: 1.5rem;
+  }
+  h3::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: 0 auto 14px;
+    background: var(--color-accent);
+    transform: rotate(45deg);
+  }
+  p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+</style>

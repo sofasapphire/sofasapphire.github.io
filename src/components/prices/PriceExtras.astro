@@ -1,0 +1,54 @@
+---
+/** Дополнительные услуги: список «услуга — цена». Данные — data/pages/prices/extras.json */
+import Fill from '@/components/ui/Fill.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { extras } from '@/data/pages/prices';
+---
+
+<section class="section container extras">
+  <SectionHeading eyebrow={extras.eyebrow} title={extras.title} />
+  <dl class="extras__list">
+    {
+      extras.items.map((item) => (
+        <div class="extras__row" data-reveal>
+          <dt>{item.title}</dt>
+          <dd>
+            <Fill text={item.price} />
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>
+
+<style>
+  .extras__list {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .extras__row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  dt {
+    flex: 1;
+  }
+  dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    letter-spacing: 0;
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 520px) {
+    .extras__row {
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+</style>

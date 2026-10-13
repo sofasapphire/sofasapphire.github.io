@@ -1,0 +1,99 @@
+# Раздел «Страница „Цены“»: по записи на блок. Файлы — src/data/pages/prices/*.json.
+# «___» — пропуск: на сайте подсвечивается жёлтым, пока не заполнен.
+collections:
+  - name: prices
+    label: Страница «Цены»
+    description: >-
+      Цены и условия. Пропуски «___» подсвечиваются на сайте жёлтым — замените их
+      реальными данными.
+    files:
+      - name: intro
+        label: 1. Заголовок страницы
+        file: src/data/pages/prices/intro.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - { name: subtitle, label: Пояснение, widget: text }
+
+      - name: packages
+        label: 2. Пакеты (карточки цен)
+        file: src/data/pages/prices/packages.json
+        fields:
+          - name: items
+            label: Пакеты
+            label_singular: Пакет
+            widget: list
+            summary: '{{title}} — {{price}}'
+            fields:
+              - { name: title, label: Название }
+              - name: category
+                label: Вид съёмки (для ссылки «Смотреть съёмки»)
+                widget: relation
+                collection: settings
+                file: categories
+                value_field: '{{items.*.slug}}'
+                display_fields: ['{{items.*.title}}']
+                search_fields: ['{{items.*.title}}']
+                dropdown_threshold: 20
+                required: false
+              - { name: price, label: Цена, hint: 'Например «от 250 BYN»' }
+              - {
+                  name: duration,
+                  label: Длительность,
+                  required: false,
+                  hint: 'Например «2 ч» или «от 4 ч»',
+                }
+              - name: includes
+                label: Что входит
+                widget: list
+                hint: По пункту на строку
+              - name: featured
+                label: Выделить («популярное»)
+                widget: boolean
+                default: false
+                required: false
+
+      - name: included
+        label: 3. Всегда входит
+        file: src/data/pages/prices/included.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - name: items
+            label: Пункты
+            label_singular: Пункт
+            widget: list
+            summary: '{{title}}'
+            fields:
+              - { name: title, label: Название }
+              - { name: text, label: Текст, widget: text }
+
+      - name: extras
+        label: 4. Дополнительные услуги
+        file: src/data/pages/prices/extras.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - name: items
+            label: Услуги
+            label_singular: Услуга
+            widget: list
+            summary: '{{title}} — {{price}}'
+            fields:
+              - { name: title, label: Услуга }
+              - { name: price, label: Цена }
+
+      - name: faq
+        label: 5. Частые вопросы
+        file: src/data/pages/prices/faq.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - name: items
+            label: Вопросы
+            label_singular: Вопрос
+            widget: list
+            summary: '{{question}}'
+            fields:
+              - { name: question, label: Вопрос }
+              - { name: answer, label: Ответ, widget: text }

@@ -1,0 +1,29 @@
+---
+/** Заглушка на месте будущего фото. */
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = 'фото', class: className } = Astro.props;
+---
+
+<div class:list={['placeholder', className]} role="img" aria-label={`Здесь будет ${label}`}>
+  <span>{label}</span>
+</div>
+
+<style>
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-accent-soft), var(--color-dark));
+    color: var(--color-on-dark);
+  }
+  span {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+</style>

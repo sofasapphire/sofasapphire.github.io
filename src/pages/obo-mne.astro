@@ -1,0 +1,22 @@
+---
+/** Страница «Обо мне». Тексты и фото — src/data/pages/about/, вёрстка блоков — components/about/. */
+import AboutApproach from '@/components/about/AboutApproach.astro';
+import AboutFacts from '@/components/about/AboutFacts.astro';
+import AboutIntro from '@/components/about/AboutIntro.astro';
+import AboutQuote from '@/components/about/AboutQuote.astro';
+import AboutStory from '@/components/about/AboutStory.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Обо мне"
+  description="Фотограф Софа, Брест: больше пяти лет снимаю праздники, свадьбы, семьи и портреты — незаметно и чутко к деталям."
+>
+  <AboutIntro />
+  <AboutFacts />
+  <AboutStory />
+  <AboutApproach />
+  <AboutQuote />
+  <ContactCta />
+</BaseLayout>

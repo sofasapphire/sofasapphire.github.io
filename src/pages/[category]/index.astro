@@ -1,0 +1,43 @@
+---
+/** Страница вида съёмки: заголовок + список съёмок. Генерируется для каждого вида из categories.json. */
+import type { GetStaticPaths } from 'astro';
+
+import ShootGrid from '@/components/portfolio/ShootGrid.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import { categories, type Category } from '@/data/categories';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getShoots } from '@/lib/shoots';
+
+export const getStaticPaths = (() =>
+  categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const shoots = await getShoots(category.slug);
+---
+
+<BaseLayout
+  title={category.title}
+  description={`${category.title} — фотограф Софа, Брест. ${category.short}.`}
+>
+  <PageHeader eyebrow="портфолио" title={category.title} subtitle={category.short} />
+
+  <section class="section container">
+    {
+      shoots.length > 0 ? (
+        <ShootGrid {shoots} />
+      ) : (
+        <p class="center muted">Съёмки скоро появятся здесь.</p>
+      )
+    }
+  </section>
+
+  <ContactCta />
+</BaseLayout>

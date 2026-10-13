@@ -1,0 +1,50 @@
+# Раздел «Главная страница»: по записи на блок. Файлы — src/data/pages/home/*.json.
+# Новый блок главной = новый JSON-файл + новая запись здесь.
+collections:
+  - name: home
+    label: Главная страница
+    description: Тексты и фото блоков главной. Слайдер — в отдельном разделе «Слайдер на главной».
+    # Фото блоков главной (сейчас — портрет «Обо мне») лежат в src/assets/home
+    media_folder: /src/assets/home
+    public_folder: /src/assets/home
+    files:
+      - name: intro
+        label: Вступление и три слова
+        file: src/data/pages/home/intro.json
+        fields:
+          - name: title
+            label: Заголовок
+            widget: text
+            hint: Перенос строки — Enter
+          - { name: subtitle, label: Подзаголовок }
+          - { name: signature, label: Подпись прописью, hint: Например «by Sofa» }
+          - { name: text, label: Текст, widget: text }
+          - name: words
+            label: Три слова (тёмная полоса)
+            widget: list
+            min: 3
+            max: 3
+
+      - name: about
+        label: Обо мне (короткий блок)
+        file: src/data/pages/home/about.json
+        fields:
+          - name: photo
+            label: Фото
+            widget: image
+            hint: Лучше вертикальное — показывается в пропорции 3:4
+          - { name: photoAlt, label: Что на фото, hint: Пара слов для поисковиков и незрячих }
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - { name: titleAccent, label: Вторая строка заголовка (курсивом) }
+          - { name: text, label: Текст, widget: text }
+          - { name: linkText, label: Текст ссылки }
+
+      - name: certificate
+        label: Подарочный сертификат
+        file: src/data/pages/home/certificate.json
+        fields:
+          - { name: eyebrow, label: Надпись над заголовком }
+          - { name: title, label: Заголовок }
+          - { name: text, label: Текст, widget: text }
+          - { name: button, label: Текст кнопки }

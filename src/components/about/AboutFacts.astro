@@ -1,0 +1,46 @@
+---
+/** Тёмная полоса с фактами. Данные — data/pages/about/facts.json (любое количество). */
+import { facts } from '@/data/pages/about';
+---
+
+<section class="bg-dark facts" aria-label="Коротко обо мне">
+  <ul class="container facts__list">
+    {
+      facts.items.map((f) => (
+        <li data-reveal>
+          <span class="facts__value">{f.value}</span>
+          <span class="facts__label">{f.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .facts {
+    padding-block: clamp(40px, 6vw, 72px);
+  }
+  .facts__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 32px;
+    margin-block: 0;
+    list-style: none;
+    text-align: center;
+  }
+  .facts__value {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--color-accent-soft);
+  }
+  .facts__label {
+    display: block;
+    max-width: 240px;
+    margin: 10px auto 0;
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 80%);
+  }
+</style>

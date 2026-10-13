@@ -1,0 +1,58 @@
+/*
+ * Анимации сайта. Всё мягкое и медленное, в духе nadia-vaisse.com.
+ *   - плавная смена страниц (View Transitions, без JavaScript);
+ *   - появление блоков при прокрутке: [data-reveal] + scripts/reveal.ts;
+ *   - фото плавно проявляются, когда загрузились.
+ * При системной настройке «уменьшить движение» всё отключается.
+ */
+
+:root {
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --reveal-duration: 1s;
+}
+
+/* Плавный переход между страницами (Chrome, Edge, Safari 18+; в остальных — обычный переход) */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-soft);
+}
+
+/* Появление при прокрутке. Прячем только если JS включён (класс .js ставится в <head>). */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--reveal-duration) var(--ease-soft),
+    transform var(--reveal-duration) var(--ease-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+/* Вариант без сдвига — для крупных фото */
+.js [data-reveal='fade'] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

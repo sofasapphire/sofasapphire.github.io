@@ -1,0 +1,29 @@
+---
+/** Страница «Цены». Тексты — src/data/pages/prices/, вёрстка блоков — components/prices/. */
+import CertificateTeaser from '@/components/home/CertificateTeaser.astro';
+import PriceExtras from '@/components/prices/PriceExtras.astro';
+import PriceFaq from '@/components/prices/PriceFaq.astro';
+import PriceIncluded from '@/components/prices/PriceIncluded.astro';
+import PricePackages from '@/components/prices/PricePackages.astro';
+import ContactCta from '@/components/ui/ContactCta.astro';
+import PageHeader from '@/components/ui/PageHeader.astro';
+import { intro } from '@/data/pages/prices';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Цены"
+  description="Стоимость фотосъёмки у фотографа Софы в Бресте: репортаж и праздники, свадьбы, love story, семейные, портреты, коммерция."
+>
+  <PageHeader eyebrow={intro.eyebrow} title={intro.title} subtitle={intro.subtitle} />
+
+  <section class="section container">
+    <PricePackages />
+  </section>
+
+  <PriceIncluded />
+  <PriceExtras />
+  <PriceFaq />
+  <CertificateTeaser />
+  <ContactCta />
+</BaseLayout>

@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.astro/
+package-lock.json
+# Пишет админка — не переформатировать
+src/content/
+src/data/*.json

@@ -1,0 +1,53 @@
+---
+/**
+ * Сетка карточек съёмок. Используется на странице «Портфолио» и на страницах видов съёмки.
+ * У каждой карточки есть data-category — по нему работает фильтр на странице «Портфолио».
+ */
+import ShootCard from '@/components/portfolio/ShootCard.astro';
+import type { Shoot } from '@/lib/shoots';
+
+interface Props {
+  shoots: Shoot[];
+  /** Колонок на компьютере. На планшете и телефоне — 2. */
+  columns?: 2 | 3;
+  showCategory?: boolean;
+}
+
+const { shoots, columns = 2, showCategory = false } = Astro.props;
+const sizes = columns === 3 ? '(max-width: 860px) 50vw, 380px' : '(max-width: 860px) 50vw, 580px';
+---
+
+<ul class="grid" style={`--cols: ${columns}`} data-shoot-grid>
+  {
+    shoots.map((shoot) => (
+      <li data-category={shoot.data.category} data-reveal>
+        <ShootCard {shoot} {showCategory} {sizes} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: clamp(32px, 4vw, 56px) clamp(16px, 3vw, 32px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .grid > li[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      --cols: 2 !important;
+    }
+  }
+  @media (max-width: 520px) {
+    .grid {
+      gap: 28px 12px;
+    }
+  }
+</style>
